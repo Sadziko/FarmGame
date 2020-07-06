@@ -28,45 +28,57 @@ public class Farm {
                 '}';
     }
 
-    public boolean extendFarmSize(Player player){
-        if (player.cash >= this.costToExtend)
-        {
+    public boolean extendFarmSize(Player player) {
+        if (player.cash >= this.costToExtend) {
             player.cash -= costToExtend;
             maxSize++;
             Helpers.resizeArray( player.farm.plants, maxSize );
-            System.out.println("Your farm is now bigger! New size: " + maxSize);
+            System.out.println( "Your farm is now bigger! New size: " + maxSize );
             costToExtend += 1000.0;
-            System.out.println("Next upgrade will cost you " + costToExtend);
+            System.out.println( "Next upgrade will cost you " + costToExtend );
 
             return true;
         }
-        System.out.println("You don't have enough money! You need " + costToExtend);
+        System.out.println( "You don't have enough money! You need " + costToExtend );
         return false;
 
     }
-    public boolean decreaseFarmSize(Player player){
-        if (player.farm.maxSize > 1)
-        {
-            player.cash += costToExtend/2;
+
+    public boolean decreaseFarmSize(Player player) {
+        if (player.farm.maxSize > 1) {
+            player.cash += costToExtend / 2;
             maxSize--;
             Helpers.resizeArray( player.farm.plants, maxSize );
-            System.out.println("Your farm is now smaller! New size: " + maxSize);
+            System.out.println( "Your farm is now smaller! New size: " + maxSize );
             costToExtend -= 1000.0;
-            System.out.println("Next upgrade will cost you " + costToExtend);
+            System.out.println( "Next upgrade will cost you " + costToExtend );
             return true;
         }
-        System.out.println("You have to keep at least some of your ground!");
+        System.out.println( "You have to keep at least some of your ground!" );
         return false;
 
     }
 
-    public void displayFarmCrops(){
-        for ( FarmCropPlant plant: plants) {
+    public void displayFarmCrops() {
+        for (FarmCropPlant plant : plants) {
 
             if (plant == null)
-                System.out.println("Empty");
+                System.out.println( "Empty" );
             else
-                System.out.println(plant.getClass().getSimpleName());
+                System.out.println( plant.getClass().getSimpleName() + " current age: " + plant.currentWeekAge );
         }
+    }
+
+    public Barn getBarn() {
+        if (this.buildingsList.stream().anyMatch( type -> type instanceof Barn )) {
+            Barn playersBarn = null;
+            for (FarmBuilding building : this.buildingsList
+                    ) {
+                if (building instanceof Barn)
+                    playersBarn = (Barn) building;
+            }
+            return playersBarn;
+        }
+        return null;
     }
 }

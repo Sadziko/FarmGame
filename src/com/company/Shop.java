@@ -1,9 +1,11 @@
 package com.company;
 
 import com.company.Buildings.*;
-import com.company.Plants.*;
+
 
 import java.util.Scanner;
+
+import static com.company.Main.scanner;
 
 public class Shop {
     private static String[] cropPlants = new String[]{"1. Wheat", "2. Oat", "3. Potato", "4. Apple Tree", "5. Tobacco"};
@@ -51,51 +53,51 @@ public class Shop {
 
     public static boolean buyCropPlant(Player player) {
 
-        if (player.farm.plants.length < player.farm.maxSize) {
             System.out.println( "Which plant would you like to buy?" );
             for (String option : cropPlants) {
                 System.out.println( option );
             }
-            Scanner scanner = new Scanner( System.in );
 
-            switch (scanner.nextInt()) {
+            int shopChoice = scanner.nextInt();
+
+            switch (shopChoice) {
                 case 1:
                     if (checkPrice( player.cash, wheatPrice )) {
-                        player.availblePlants.add( new Wheat() );
+                        player.plantsInventory.merge( "Wheat", 1, Integer::sum );
                         player.cash -= wheatPrice;
-                        System.out.println( "Succesfuly bought wheat" );
+                        System.out.println( "Succesfuly bought wheat seed" );
                         return true;
                     }
                     return false;
                 case 2:
                     if (checkPrice( player.cash, oatPrice )) {
-                        player.availblePlants.add( new Oat() );
+                        player.plantsInventory.merge( "Oat", 1, Integer::sum );
                         player.cash -= wheatPrice;
-                        System.out.println( "Succesfuly bought wheat" );
+                        System.out.println( "Succesfuly bought oat seed" );
                         return true;
                     }
                     return false;
                 case 3:
                     if (checkPrice( player.cash, potatoPrice )) {
-                        player.availblePlants.add( new Potato() );
+                        player.plantsInventory.merge( "Potato", 1, Integer::sum );
                         player.cash -= wheatPrice;
-                        System.out.println( "Succesfuly bought wheat" );
+                        System.out.println( "Succesfuly bought potato seed" );
                         return true;
                     }
                     return false;
                 case 4:
                     if (checkPrice( player.cash, appleTreePrice )) {
-                        player.availblePlants.add( new AppleTree() );
+                        player.plantsInventory.merge( "Apples", 1, Integer::sum );
                         player.cash -= wheatPrice;
-                        System.out.println( "Succesfuly bought wheat" );
+                        System.out.println( "Succesfuly bought apple tree plant" );
                         return true;
                     }
                     return false;
                 case 5:
                     if (checkPrice( player.cash, tobaccoPrice )) {
-                        player.availblePlants.add( new Tobacco() );
+                        player.plantsInventory.merge( "Tobacco", 1, Integer::sum );
                         player.cash -= wheatPrice;
-                        System.out.println( "Succesfuly bought wheat" );
+                        System.out.println( "Succesfuly bought tobacco seed" );
                         return true;
                     }
                     return false;
@@ -105,9 +107,7 @@ public class Shop {
             }
         }
 
-        System.out.println( "Your farm is full!" );
-        return false;
-    }
+
 
     public static boolean buyBuilding(Player player) {
 
@@ -115,7 +115,6 @@ public class Shop {
         for (String option : farmBuildings) {
             System.out.println( option );
         }
-        Scanner scanner = new Scanner( System.in );
 
         switch (scanner.nextInt()) {
             case 1:
@@ -185,7 +184,6 @@ public class Shop {
         for (String option : farmBuildings) {
             System.out.println( option );
         }
-        Scanner scanner = new Scanner( System.in );
 
         switch (scanner.nextInt()) {
             case 1:

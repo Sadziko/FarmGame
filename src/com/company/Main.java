@@ -1,31 +1,33 @@
 package com.company;
 
-import com.company.Animals.Sheep;
 import com.company.Buildings.Barn;
-import com.company.Buildings.FarmBuilding;
+import com.company.Plants.FarmCropPlant;
 
 import java.util.Scanner;
 
 public class Main {
-    static Scanner menuScanner = new Scanner( System.in );
-    private static int choosenOptionMainMenu;
+    static Scanner scanner = new Scanner( System.in );
     static int weeksCounter = 1;
     static boolean increaseTurn = false;
 
     public static void main(String[] args) {
         System.out.println( "Welcome to the farm game! Please type in your name:" );
         Player player = new Player();
-
+        int choosenOptionMainMenu;
 
         do {
             if (increaseTurn)
-                newTurn();
+                newTurn( player );
             displayStartingTurnInfo( player );
             displayMainMenu();
-            choosenOptionMainMenu = menuScanner.nextInt();
+
+            increaseTurn = false;
+            choosenOptionMainMenu = scanner.nextInt();
 
 
             switch (choosenOptionMainMenu) {
+                case 0:
+
                 case 1:
                     if (player.farm.extendFarmSize( player ))
                         setIncreaseTurnTrue();
@@ -57,7 +59,7 @@ public class Main {
                         setIncreaseTurnTrue();
                     break;
                 case 9:
-
+                    player.getInventory();
                     break;
                 case 10:
 
@@ -68,8 +70,14 @@ public class Main {
                 case 12:
                     Barn.displayStorageContent( player );
                     break;
+                case 13:
+                    if (player.plant())
+                        setIncreaseTurnTrue();
+                    break;
                 default:
                     System.out.println( "Incorrect number!" );
+                    setIncreaseTurnTrue();
+                    break;
             }
         } while (choosenOptionMainMenu != 0);
 
@@ -85,19 +93,30 @@ public class Main {
         System.out.println( "Current balance account is " + player.cash );
     }
 
-    private static void newTurn() {
+    private static void newTurn(Player player) {
         weeksCounter++;
         increaseTurn = false;
+        for (FarmCropPlant plant : player.farm.plants) {
+            if (plant != null)
+                plant.increase();
+        }
     }
 
     private static void displayMainMenu() {
         String[] menuOptions = new String[]{"1. Buy some ground", "2. Sell some ground", "3. Buy plants",
                 "4. Sell plants", "5. Buy animals", "6. Sell animals", "7. Buy building", "8. Sell building",
-                "9. Check your inventory", "10. Animals info", "11. Plants info", "12. Storage content", "0. Exit"};
+                "9. Check your inventory", "10. Animals info", "11. Plants info", "12. Storage content", "13. Plant seed", "14. Harvest plant", "0. Exit"};
 
         for (String option : menuOptions) {
             System.out.println( option );
         }
         System.out.println( "Choose your action:" );
+    }
+
+    public static int returnWeekOfCurrentYear(){
+        int weekToReturn = weeksCounter;
+        while (weeksCounter > 52)
+            weekToReturn =- 52;
+        return weekToReturn;
     }
 }

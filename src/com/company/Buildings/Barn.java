@@ -16,7 +16,7 @@ public class Barn extends FarmBuilding {
 
     public Barn() {
         super( 100, 1000.0 );
-        this.farmPlantsStorage = new Hashtable<String, Integer>();
+        this.farmPlantsStorage = new Hashtable<>();
         farmPlantsStorage.put( "Wheat", 0 );
         farmPlantsStorage.put( "Oat", 0 );
         farmPlantsStorage.put( "Potato", 0 );

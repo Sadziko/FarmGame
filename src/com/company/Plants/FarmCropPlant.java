@@ -1,20 +1,22 @@
 package com.company.Plants;
 
 import com.company.Enums.EnumSize;
+import com.company.Interfaces.Growable;
+import com.company.Interfaces.Harvestable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class FarmCropPlant {
+public abstract class FarmCropPlant implements Harvestable, Growable {
     EnumSize size;
-    int amountInKg;
     int amountOfCollected;
     double valuePerKg;
     double costOfPreparing;
     double costOfCollecting;
     int weeksToFullyGrow;
-    List<Integer> weeksAllowedToPlant;
+    public int currentWeekAge;
+    public static List<Integer> weeksAllowedToPlant;
 
     public FarmCropPlant(int amountOfCollected, double valuePerKg, double costOfPrepraring, double costOfCollecting,
                          int weeksToFullyGrow, int minWeekAllowedToPlant, int maxWeekAllowedToPlant) {
@@ -24,8 +26,8 @@ public abstract class FarmCropPlant {
         this.costOfCollecting = costOfCollecting;
         this.weeksToFullyGrow = weeksToFullyGrow;
         this.weeksAllowedToPlant = generateRange(minWeekAllowedToPlant, maxWeekAllowedToPlant);
-        this.size = EnumSize.NOTPLANTED;
-        this.amountInKg = 0;
+        this.size = EnumSize.NOTGROWN;
+        this.currentWeekAge = 0;
     }
 
     private List<Integer> generateRange(int min, int max){
